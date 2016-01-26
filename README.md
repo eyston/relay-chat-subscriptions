@@ -8,6 +8,8 @@ This repo will be updated with a correct implementation when subscriptions are f
 
 **1. Create Subscription class**
 
+https://github.com/eyston/relay-chat-subscriptions/blob/master/src/components/channels/channel/SendMessageSubscription.js
+
 ```js
 import Relay from 'react-relay';
 
@@ -57,6 +59,8 @@ export default class SendMessageSubscription extends Relay.Subscription {
 
 **2.  Component instantiates Subscription / subscribes to Store**
 
+https://github.com/eyston/relay-chat-subscriptions/blob/master/src/components/channels/channel/MessageList.js
+
 ```js
 class MessageList extends React.Component {
 
@@ -99,6 +103,8 @@ class MessageList extends React.Component {
 ```
 
 **3.  Network Layer sends Subscription to server / listens for responses**
+
+https://github.com/eyston/relay-chat-subscriptions/blob/master/src/network/SocketIONetworkLayer.js
 
 ```js
 class SocketIONetworkLayer {
@@ -143,6 +149,8 @@ class SocketIONetworkLayer {
 ```
 
 **4.  Server creates subscription, listens for events, executes graphql query on events**
+
+https://github.com/eyston/relay-chat-subscriptions/blob/master/src/server/socket.js
 
 ```js
 socket.on('graphql/subscription', async request => {

@@ -48,7 +48,7 @@ export default class SocketIONetworkLayer {
 
     return () => {
       this.socket.emit('graphql/subscription/unsubscribe', {id});
-      delete this.subscriptions[subscriptionRequest.id];
+      delete this.subscriptions[id];
     }
   }
 
