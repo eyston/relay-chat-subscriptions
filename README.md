@@ -6,7 +6,7 @@ This repo will be updated with a correct implementation when subscriptions are f
 
 ### End to End Flow
 
-1. Create Subscription class
+**1. Create Subscription class**
 
 ```js
 import Relay from 'react-relay';
@@ -55,7 +55,7 @@ export default class SendMessageSubscription extends Relay.Subscription {
 }
 ```
 
-2. Component instantiates Subscription / subscribes to Store
+**2.  Component instantiates Subscription / subscribes to Store**
 
 ```js
 class MessageList extends React.Component {
@@ -98,7 +98,7 @@ class MessageList extends React.Component {
 }
 ```
 
-3. Network Layer sends Subscription to server / listens for responses
+**3.  Network Layer sends Subscription to server / listens for responses**
 
 ```js
 class SocketIONetworkLayer {
@@ -142,7 +142,7 @@ class SocketIONetworkLayer {
 }
 ```
 
-4. Server creates subscription, listens for events, executes graphql query on events
+**4.  Server creates subscription, listens for events, executes graphql query on events**
 
 ```js
 socket.on('graphql/subscription', async request => {
