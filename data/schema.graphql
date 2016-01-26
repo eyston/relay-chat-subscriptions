@@ -1,0 +1,167 @@
+type Channel implements Node {
+  id: ID!
+  name: String
+  joined: Boolean
+  memberCount: Int
+  members(after: String, first: Int, before: String, last: Int): UserConnection
+  totalMessages: Int
+  messages(after: String, first: Int, before: String, last: Int): MessageConnection
+}
+
+type ChannelConnection {
+  pageInfo: PageInfo!
+  edges: [ChannelEdge]
+}
+
+type ChannelEdge {
+  node: Channel
+  cursor: String!
+}
+
+type DateTime {
+  format(string: String!): String
+}
+
+type EventMessage implements Node {
+  id: ID!
+  text: String
+  time: DateTime
+  channel: Channel
+}
+
+input JoinChannelInput {
+  channelId: ID!
+  clientMutationId: String!
+}
+
+type JoinChannelPayload {
+  channel: Channel
+  edge: UserEdge
+  clientMutationId: String!
+}
+
+input JoinChannelSubscribeInput {
+  clientSubscriptionId: String!
+  channelId: ID!
+}
+
+type JoinChannelSubscribePayload {
+  clientSubscriptionId: String!
+  channel: Channel
+  member: User
+  edge: UserEdge
+}
+
+input LeaveChannelInput {
+  channelId: ID!
+  clientMutationId: String!
+}
+
+type LeaveChannelPayload {
+  channel: Channel
+  memberId: ID!
+  clientMutationId: String!
+}
+
+input LeaveChannelSubscribeInput {
+  clientSubscriptionId: String!
+  channelId: ID!
+}
+
+type LeaveChannelSubscribePayload {
+  clientSubscriptionId: String!
+  channel: Channel
+  member: User
+  memberId: ID!
+}
+
+union Message = EventMessage | TextMessage
+
+type MessageConnection {
+  pageInfo: PageInfo!
+  edges: [MessageEdge]
+}
+
+type MessageEdge {
+  node: Message
+  cursor: String!
+}
+
+type Mutation {
+  sendMessage(input: SendMessageInput!): SendMessagePayload
+  joinChannel(input: JoinChannelInput!): JoinChannelPayload
+  leaveChannel(input: LeaveChannelInput!): LeaveChannelPayload
+}
+
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type Query {
+  node(id: ID!): Node
+  viewer: User
+  user(id: ID!): User
+  channel(id: ID!): Channel
+}
+
+input SendMessageInput {
+  text: String!
+  channelId: ID!
+  senderId: ID!
+  clientMutationId: String!
+}
+
+type SendMessagePayload {
+  edge: MessageEdge
+  channel: Channel
+  clientMutationId: String!
+}
+
+input SendMessageSubscribeInput {
+  clientSubscriptionId: String!
+  channelId: ID!
+}
+
+type SendMessageSubscribePayload {
+  clientSubscriptionId: String!
+  edge: MessageEdge
+  channel: Channel
+}
+
+type Subscription {
+  sendMessageSubscribe(input: SendMessageSubscribeInput!): SendMessageSubscribePayload
+  joinChannelSubscribe(input: JoinChannelSubscribeInput!): JoinChannelSubscribePayload
+  leaveChannelSubscribe(input: LeaveChannelSubscribeInput!): LeaveChannelSubscribePayload
+}
+
+type TextMessage implements Node {
+  id: ID!
+  text: String
+  sender: User
+  time: DateTime
+  channel: Channel
+}
+
+type User implements Node {
+  id: ID!
+  name: String
+  defaultChannel: Channel
+  channels(after: String, first: Int, before: String, last: Int): ChannelConnection
+}
+
+type UserConnection {
+  pageInfo: PageInfo!
+  edges: [UserEdge]
+}
+
+type UserEdge {
+  node: User
+  cursor: String!
+}
